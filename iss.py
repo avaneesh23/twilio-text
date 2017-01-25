@@ -32,9 +32,9 @@ def get_next_pass(lat, lon):
 def add_to_queue(phone_number, lat, lon):
     # Send a text thanking the user for subscribing if they haven't before.
     if not redis_server.exists(phone_number):
-        client.messages.create(to=phone_number,
-                               messaging_service_sid='MESSAGING_SERVICE_SID',
-                               body='Thanks for subscribing to ISS alerts!')
+        client.messages.create(body="Thanks for subscribing to ISS alerts!", 
+                               to=phone_number, 
+                               from_="+16178588095",)
 
     # Add this phone number to Redis associated with "lat,lon"
     redis_server.set(phone_number, '{},{}'.format(lat, lon))
@@ -61,9 +61,8 @@ def notify_subscriber(phone_number):
     lat, lon = redis_server.get(phone_number).split(',')
 
     # Send a message to the number alerting them of an ISS flyby.
-    client.messages.create(to=phone_number,
-                           messaging_service_sid='MESSAGING_SERVICE_SID',
-                           body=msg_body)
+    client.messages.create(body=msg_body, to=phone_number, 
+                           from_="+16178588095",)
 
     # Add the subscriber back to the queue to receive their next flyby message.
     add_to_queue(phone_number, lat, lon)
