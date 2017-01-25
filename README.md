@@ -1,2 +1,2 @@
 # ISSNotifications
-Sign up to receive an SMS notification whenever the International Space Station flies by above you.
+Django application to subscribe for text messages whenever the International Space Station flies by above you.
